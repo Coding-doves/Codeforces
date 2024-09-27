@@ -12,7 +12,7 @@ for num in range(archery):
     target_list = list(map(int, input().split(" "))) # Convert to integer
     if len(target_list) != target:
         print(f"Enter {target} numbers")
-        continue
+        break
 
     # Loop through n number of queries checking if sheriff have a winning or tie chance
     for _ in range(query):
@@ -22,7 +22,7 @@ for num in range(archery):
         # Check if the query range is valid
         if l < 1 or r > len(target_list):
             print("Invalid query range")
-            continue  # Skip this query if the range is invalid
+            break  # Skip this query if the range is invalid
 
         # Subset target_list based on query
         nums = sorted(target_list[l - 1:r], reverse=True)
