@@ -5,37 +5,35 @@ resp = []
 # Loop to receive n Number of test cases
 for num in range(archery):
     # Targets and number of times to query target list
-    target, query = input().split(" ")
-    target, query = int(target), int(query)
+    target, query = map(int, input().split())
     
-    # Receive target list of test cases
-    target_list = list(map(int, input().split(" "))) # Convert to integer
-    if len(target_list) != target:
-        print(f"Enter {target} numbers")
+    # Receive target list of test cases once
+    target_list = list(map(int, input().split())) # Convert to integer
 
-    # Loop through n number of queries checking if sheriff have a winning or tie chance
     for _ in range(query):
-        l, r = input().split(" ")
-        l, r = int(l), int(r)
+        l, r = map(int, input().split())
 
-        # Check if the query range is valid
-        if l < 1 or r > len(target_list):
-            print("Invalid query range")
-
-        # Subset target_list based on query
-        nums = sorted(target_list[l - 1:r], reverse=True)
-
-        # Check Sheriff chances of winning/tie
-        robin = 0
-        sheriff = 0
-        # Loop through test case/subset list
-        for n in range(len(nums)):
-            if n % 2 == 0:
-                robin += nums[n]
+        query_size, score = len(target_list[l - 1: r]), sum(target_list[l - 1: r])
+        if query_size % 2 != 0:
+            if query_size == 1:
+                robin_score = target_list[l - 1]
+                sheriff_score = 0
             else:
-                sheriff += nums[n]
+                if score % 2 != 0:
+                    robin_score = (score + 1) // 2
+                    sheriff_score = robin_score - 1
+                else:
+                    robin_score = score // 2
+                    sheriff_score = robin_score
+        else:
+            if score % 2 != 0:
+                robin_score = (score + 1) // 2
+                sheriff_score = robin_score - 1
+            else:
+                robin_score = score // 2
+                sheriff_score = robin_score
 
-        resp.append("NO" if robin > sheriff else "YES")
-
+        resp.append("NO" if robin_score > sheriff_score else "YES")
+    
 for r in resp:
     print(r)
